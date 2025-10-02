@@ -1,0 +1,107 @@
+/* Body setup with background image */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('dbms index page.jpg'); /* Check file name and path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Slightly grey, transparent box */
+.container {
+  background-color: rgba(128, 128, 128, 0.4); /* Light grey with transparency */
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); /* Highlighted shadow */
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Optional border for clarity */
+}
+
+/* Heading style */
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 30px;
+  color: #ffffff; /* White text */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* For better readability */
+}
+
+/* Buttons layout - side by side */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Button style */
+.btn {
+  text-decoration: none;
+  padding: 15px 30px;
+  background-color: #8B4513; /* Brown */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  transition: transform 0.3s, background-color 0.3s;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover effect for button */
+.btn:hover {
+  background-color: #5C3317;
+  transform: scale(1.05);
+}
+/* Login box similar to main container */
+.login-container {
+  background-color: rgba(128, 128, 128, 0.4); /* Transparent grey */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Center entire page vertically */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Login button uses existing .btn style */
+
+/* Register link */
+.register-link {
+  margin-top: 20px;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.register-link a {
+  color: #FFD700; /* Gold for visibility */
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
