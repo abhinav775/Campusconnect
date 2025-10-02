@@ -1,0 +1,94 @@
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5e9dc; /* ✅ Light brown background */
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 50px 20px 30px;
+  color: #4e342e;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #6d4c41;
+}
+
+/* Events Grid */
+.events-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Event Card */
+.event-card {
+  background: #fff7f0;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.event-card h2 {
+  font-size: 1.4rem;
+  color: #5d4037;
+  margin-bottom: 10px;
+}
+
+.event-card p {
+  font-size: 0.95rem;
+  color: #5f4b43;
+  margin: 6px 0;
+}
+
+/* Register Button */
+.btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #8B4513; /* ✅ Brown button */
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #5C3317;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #4e342e;
+  font-size: 0.95rem;
+  background: #e7d3c4;
+}
