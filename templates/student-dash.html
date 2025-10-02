@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Dashboard - CampusConnect</title>
-  <link rel="stylesheet" href="student-dash.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='student-dash.css') }}">
 </head>
 <body>
   <div class="dashboard-container">
@@ -12,31 +12,21 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <a href="club.html" class="btn">Browse Clubs</a>
-      <a href="event.html" class="btn">Browse Events</a>
+      <a href="{{ url_for('browse_clubs') }}" class="btn">Browse Clubs</a>
+      <a href="{{ url_for('browse_events') }}" class="btn">Browse Events</a>
     </div>
 
     <!-- Recent Activities -->
     <h2>Recent Activities</h2>
     <div class="recent-activities">
+      {% for event in events %}
       <div class="activity-card">
-        <h3>THAKSHAK'25</h3>
-        <p>Organized by DEPT OF ECE</p>
-        <span>Sep 16, 2025</span><br>
-        <span>Time: 12:30 – 3:30 PM</span>
+        <h3>{{ event.name }}</h3>
+        <p>Organized by {{ event.host }}</p>
+        <span>{{ event.date }}</span><br>
+        <span>Time: {{ event.time }}</span>
       </div>
-      <div class="activity-card">
-        <h3>OZO FEST'25</h3>
-        <p>Organized by DEPT OF CIVIL</p>
-        <span>Sep 26, 2025</span><br>
-        <span>Time: 10:00 AM – 3:00 PM</span>
-      </div>
-      <div class="activity-card">
-        <h3>GDGoC SSET - Info Session</h3>
-        <p>Organized by GDGoC SSET</p>
-        <span>Sep 16, 2025</span><br>
-        <span>Time: 9:00 AM – 12:00 PM</span>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </body>
