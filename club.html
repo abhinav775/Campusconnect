@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Browse Our Clubs</title>
   <link rel="stylesheet" href="club.css">
+</head>
+<body>
 
   <header>
     <h1>Welcome to the Club Directory</h1>
@@ -11,33 +13,29 @@
   </header>
 
   <nav>
-    <a href="#">Home</a>
-    <a href="#">All Clubs</a>
-    <a href="#">Join a Club</a>
-    <a href="#">Contact</a>
-  </nav>
-
+    <a href="{{ url_for('student-dash') }}">BACK TO DASHBOARD</a>
+</nav>
   <div class="container">
+
+    <!-- Clubs in shuffled order -->
     <div class="club-card">
-      <img src="https://via.placeholder.com/600x200?text=Photography+Club" alt="Photography Club">
-      <h3>Photography Club</h3>
-      <p>Capture the world through your lens. Weekly meetups and photo walks.</p>
-      <a href="#">Learn More</a>
+      <img src="aethera banner.jpg" alt="Banner" class="club-banner">
+      <h3>AETHERA</h3>
+      <button class="join-btn">Join</button>
     </div>
 
     <div class="club-card">
-      <img src="https://via.placeholder.com/600x200?text=Chess+Club" alt="Chess Club">
-      <h3>Chess Club</h3>
-      <p>Sharpen your mind with strategy and fun matches. Beginners welcome!</p>
-      <a href="#">Learn More</a>
+      <img src="ethereal banner.jpg" alt="Banner" class="club-banner">
+      <h3>ETHEREAL CLUB</h3>
+      <button class="join-btn">Join</button>
     </div>
 
     <div class="club-card">
-      <img src="https://via.placeholder.com/600x200?text=Book+Club" alt="Book Club">
-      <h3>Book Club</h3>
-      <p>Read and discuss great books together every month.</p>
-      <a href="#">Learn More</a>
+      <img src="thrya banner.jpg" alt="Banner" class="club-banner">
+      <h3>THRYA CLUB</h3>
+      <button class="join-btn">Join</button>
     </div>
+
   </div>
 
 </body>
