@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CampusConnect</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <div class="container">
     <h1>CampusConnect</h1>
     <div class="buttons">
-      <a href="student-login.html" class="btn">Student Login</a>
-      <a href="admin-login.html" class="btn">Admin Login</a>
+      <a href="{{ url_for('student_login') }}" class="btn">Student Login</a>
+      <a href="{{ url_for('admin_login') }}" class="btn">Admin Login</a>
     </div>
   </div>
-</div>
 </body>
 </html>
