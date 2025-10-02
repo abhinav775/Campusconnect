@@ -1,0 +1,112 @@
+   <!DOCTYPE html>
+   <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browse Our Clubs</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+     }
+
+    header {
+      background-color: #333;
+      color: brown;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    nav {
+      background-color: #444;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .club-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .club-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .club-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .club-card h3 {
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;
+      color: #333;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Browse Our Clubs</h1>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Join a Club</a>
+  </nav>
+
+  <div class="container">
+    <div class="club-card">
+      <img src="https://via.placeholder.com/400x200?text=IEEE+CLUB" alt="IEEE CLUB">
+      <h3>IEEE CLUB</h3>
+    </div>
+
+    <div class="club-card">
+      <img src="https://via.placeholder.com/400x200?text=THREYA+CLUB" alt="THREYA CLUB">
+      <h3>THREYA CLUB</h3>
+    </div>
+
+    <div class="club-card">
+      <img src="https://via.placeholder.com/400x200?text=FOSS+CLUB" alt="FOSS CLUB">
+      <h3>FOSS CLUB</h3>
+    </div>
+
+    <div class="club-card">
+      <img src="https://via.placeholder.com/400x200?text=TINKERHUB" alt="TINKERHUB">
+      <h3>TINKERHUB</h3>
+    </div>
+
+    <div class="club-card">
+      <img src="https://via.placeholder.com/400x200?text=ETHREAL+CLUB" alt="ETHREAL CLUB">
+      <h3>ETHREAL CLUB</h3>
+    </div>
+  </div>
+
+</body>
+</html>
