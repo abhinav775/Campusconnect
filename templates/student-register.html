@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration - CampusConnect</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Student Registration</h2>
+    <form action="register-success.html" method="post">
+      <input type="text" name="studentName" placeholder="Student Name" required />
+      <input type="text" name="class" placeholder="Class" required />
+      <input type="text" name="admissionNo" placeholder="Admission Number" required />
+      
+      <!-- Added Username and Password fields -->
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+
+      <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}" />
+      <button type="submit" class="btn">Register</button>
+    </form>
+    <p class="register-link">
+      Already have an account? <a href="student-login.html">Login here</a>
+    </p>
+  </div>
+</body>
+</html>
