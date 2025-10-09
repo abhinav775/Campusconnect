@@ -53,13 +53,18 @@ def student_register():
         password = request.form['password']
         phone = request.form['phone']
 
-        conn = get_db_connection()
-        conn.execute(
-            'INSERT INTO students (name, class, admissionNo, username, password, phone) VALUES (?, ?, ?, ?, ?, ?)',
-            (name, cls, admissionNo, username, password, phone)
-        )
-        conn.commit()
-        conn.close()
+        try:
+            conn = get_db_connection()
+            conn.execute(
+                'INSERT INTO students (name, class, admissionNo, username, password, phone) VALUES (?, ?, ?, ?, ?, ?)',
+                (name, cls, admissionNo, username, password, phone)
+            )
+            conn.commit()
+        except sqlite3.IntegrityError:
+            return "Admission Number or Username already exists!"
+        finally:
+            conn.close()
+
         return redirect(url_for('student_login'))
 
     return render_template('student-register.html')
@@ -125,10 +130,15 @@ def admin_register():
         username = request.form['username']
         password = request.form['password']
 
-        conn = get_db_connection()
-        conn.execute('INSERT INTO admins (username, password) VALUES (?, ?)', (username, password))
-        conn.commit()
-        conn.close()
+        try:
+            conn = get_db_connection()
+            conn.execute('INSERT INTO admins (username, password) VALUES (?, ?)', (username, password))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            return "Username already exists!"
+        finally:
+            conn.close()
+
         return redirect(url_for('admin_login'))
     return render_template('admin-register.html')
 
@@ -137,7 +147,12 @@ def admin_register():
 # ----------------------------
 @app.route('/admin-dashboard')
 def admin_dashboard():
-    return render_template('admin-dash.html')
+    conn = get_db_connection()
+    students = conn.execute('SELECT * FROM students').fetchall()
+    events = conn.execute('SELECT * FROM events').fetchall()
+    clubs = conn.execute('SELECT * FROM clubs').fetchall()
+    conn.close()
+    return render_template('admin-dash.html', students=students, events=events, clubs=clubs)
 
 # ----------------------------
 # CREATE EVENT (ADMIN)
@@ -157,10 +172,29 @@ def create_event():
         )
         conn.commit()
         conn.close()
-        return redirect(url_for('browse_events'))
+        return redirect(url_for('admin_dashboard'))
 
     return render_template('create-event.html')
 
+# ----------------------------
+# CREATE CLUB (ADMIN)
+# ----------------------------
+@app.route('/create-club', methods=['GET', 'POST'])
+def create_club():
+    if request.method == 'POST':
+        name = request.form['name']
+        banner = request.form['banner']  # filename of club banner image
+
+        conn = get_db_connection()
+        conn.execute(
+            'INSERT INTO clubs (name, banner) VALUES (?, ?)',
+            (name, banner)
+        )
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin_dashboard'))
+
+    return render_template('create-club.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
