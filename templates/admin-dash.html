@@ -5,12 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - CampusConnect</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .btn-clear {
+      background-color: #B22222;
+    }
+    .btn-clear:hover {
+      background-color: #8B0000;
+    }
+    .clear-data-container {
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="dashboard-container">
     <h1>Admin Dashboard</h1>
 
-    <!-- Add Buttons -->
+    <!-- Top Buttons -->
     <div class="action-buttons">
       <a href="{{ url_for('create_event') }}" class="btn">Add Event</a>
       <a href="{{ url_for('create_club') }}" class="btn">Add Club</a>
@@ -18,7 +43,7 @@
 
     <!-- Students Table -->
     <h2>Registered Students</h2>
-    <table border="1" cellpadding="10" cellspacing="0">
+    <table>
       <tr>
         <th>ID</th>
         <th>Name</th>
@@ -41,13 +66,14 @@
 
     <!-- Events Table -->
     <h2>Events</h2>
-    <table border="1" cellpadding="10" cellspacing="0">
+    <table>
       <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Date</th>
         <th>Host</th>
         <th>Description</th>
+        <th>Registered Students</th>
       </tr>
       {% for event in events %}
       <tr>
@@ -56,26 +82,43 @@
         <td>{{ event.date }}</td>
         <td>{{ event.host }}</td>
         <td>{{ event.description }}</td>
+        <td>
+          {% for student in event_registrations[event.id] %}
+            {{ student.name }}<br>
+          {% endfor %}
+        </td>
       </tr>
       {% endfor %}
     </table>
 
     <!-- Clubs Table -->
     <h2>Clubs</h2>
-    <table border="1" cellpadding="10" cellspacing="0">
+    <table>
       <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Banner</th>
+        <th>Registered Students</th>
       </tr>
       {% for club in clubs %}
       <tr>
         <td>{{ club.id }}</td>
         <td>{{ club.name }}</td>
         <td><img src="{{ url_for('static', filename=club.banner) }}" width="100"></td>
+        <td>
+          {% for student in club_registrations[club.id] %}
+            {{ student.name }}<br>
+          {% endfor %}
+        </td>
       </tr>
       {% endfor %}
     </table>
+
+    <!-- Clear All Data Button -->
+    <div class="clear-data-container">
+      <a href="{{ url_for('clear_data') }}" class="btn btn-clear">Clear All Data</a>
+    </div>
+
   </div>
 </body>
 </html>
