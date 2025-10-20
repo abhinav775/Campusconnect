@@ -32,30 +32,20 @@ CREATE TABLE IF NOT EXISTS events (
     description TEXT
 );
 
--- Event Registrations table
+-- Event registrations table
 CREATE TABLE IF NOT EXISTS event_registrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id INTEGER NOT NULL,
-    event_id INTEGER NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    UNIQUE(student_id, event_id)
+    student_id INTEGER,
+    event_id INTEGER,
+    FOREIGN KEY(student_id) REFERENCES students(id),
+    FOREIGN KEY(event_id) REFERENCES events(id)
 );
 
--- Club Registrations table
+-- Club memberships table
 CREATE TABLE IF NOT EXISTS club_memberships (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id INTEGER NOT NULL,
-    club_id INTEGER NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
-    UNIQUE(student_id, club_id)
+    student_id INTEGER,
+    club_id INTEGER,
+    FOREIGN KEY(student_id) REFERENCES students(id),
+    FOREIGN KEY(club_id) REFERENCES clubs(id)
 );
-
--- Optional: Clear all data
--- DELETE FROM event_registrations;
--- DELETE FROM club_registrations;
--- DELETE FROM students;
--- DELETE FROM events;
--- DELETE FROM clubs;
--- DELETE FROM admins;
