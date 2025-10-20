@@ -4,6 +4,7 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # for session management
 
+
 # ----------------------------
 # DATABASE HELPER FUNCTION
 # ----------------------------
@@ -12,12 +13,14 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 # ----------------------------
 # HOME PAGE
 # ----------------------------
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 # ----------------------------
 # STUDENT LOGIN
@@ -41,6 +44,7 @@ def student_login():
         else:
             return "Invalid Credentials"
     return render_template('student-login.html')
+
 
 # ----------------------------
 # STUDENT REGISTER
@@ -71,6 +75,7 @@ def student_register():
 
     return render_template('student-register.html')
 
+
 # ----------------------------
 # STUDENT DASHBOARD
 # ----------------------------
@@ -84,6 +89,7 @@ def student_dashboard():
     conn.close()
     return render_template('student-dash.html', events=events)
 
+
 # ----------------------------
 # BROWSE EVENTS
 # ----------------------------
@@ -96,6 +102,7 @@ def browse_events():
     events = conn.execute('SELECT * FROM events').fetchall()
     conn.close()
     return render_template('event.html', events=events)
+
 
 # ----------------------------
 # REGISTER FOR EVENT
@@ -121,6 +128,7 @@ def register_event(event_id):
 
     return redirect(url_for('browse_events'))
 
+
 # ----------------------------
 # BROWSE CLUBS
 # ----------------------------
@@ -133,6 +141,7 @@ def browse_clubs():
     clubs = conn.execute('SELECT * FROM clubs').fetchall()
     conn.close()
     return render_template('club.html', clubs=clubs)
+
 
 # ----------------------------
 # JOIN CLUB
@@ -158,6 +167,7 @@ def join_club(club_id):
 
     return redirect(url_for('browse_clubs'))
 
+
 # ----------------------------
 # ADMIN LOGIN
 # ----------------------------
@@ -181,6 +191,7 @@ def admin_login():
             return "Invalid Credentials"
     return render_template('admin-login.html')
 
+
 # ----------------------------
 # ADMIN REGISTER
 # ----------------------------
@@ -202,8 +213,9 @@ def admin_register():
         return redirect(url_for('admin_login'))
     return render_template('admin-register.html')
 
+
 # ----------------------------
-# ADMIN DASHBOARD
+# ✅ FIXED ADMIN DASHBOARD
 # ----------------------------
 @app.route('/admin-dashboard')
 def admin_dashboard():
@@ -211,28 +223,63 @@ def admin_dashboard():
         return redirect(url_for('admin_login'))
 
     conn = get_db_connection()
+
     students = conn.execute('SELECT * FROM students').fetchall()
     events = conn.execute('SELECT * FROM events').fetchall()
     clubs = conn.execute('SELECT * FROM clubs').fetchall()
 
-    # Get registrations
-    event_regs = conn.execute('''
-        SELECT er.id, s.name AS student_name, e.name AS event_name
-        FROM event_registrations er
-        JOIN students s ON er.student_id = s.id
-        JOIN events e ON er.event_id = e.id
-    ''').fetchall()
+    # ✅ Create tables if not exist
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS event_registrations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            event_id INTEGER,
+            FOREIGN KEY (student_id) REFERENCES students(id),
+            FOREIGN KEY (event_id) REFERENCES events(id)
+        )
+    ''')
 
-    club_regs = conn.execute('''
-        SELECT cm.id, s.name AS student_name, c.name AS club_name
-        FROM club_memberships cm
-        JOIN students s ON cm.student_id = s.id
-        JOIN clubs c ON cm.club_id = c.id
-    ''').fetchall()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS club_registrations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            club_id INTEGER,
+            FOREIGN KEY (student_id) REFERENCES students(id),
+            FOREIGN KEY (club_id) REFERENCES clubs(id)
+        )
+    ''')
+
+    # Event registrations
+    event_registrations = {}
+    for event in events:
+        registered_students = conn.execute('''
+            SELECT s.name FROM students s
+            JOIN event_registrations er ON s.id = er.student_id
+            WHERE er.event_id = ?
+        ''', (event['id'],)).fetchall()
+        event_registrations[event['id']] = registered_students
+
+    # Club registrations
+    club_registrations = {}
+    for club in clubs:
+        registered_students = conn.execute('''
+            SELECT s.name FROM students s
+            JOIN club_registrations cr ON s.id = cr.student_id
+            WHERE cr.club_id = ?
+        ''', (club['id'],)).fetchall()
+        club_registrations[club['id']] = registered_students
 
     conn.close()
-    return render_template('admin-dash.html', students=students, events=events, clubs=clubs,
-                           event_regs=event_regs, club_regs=club_regs)
+
+    return render_template(
+        'admin-dash.html',
+        students=students,
+        events=events,
+        clubs=clubs,
+        event_registrations=event_registrations,
+        club_registrations=club_registrations
+    )
+
 
 # ----------------------------
 # CREATE EVENT (ADMIN)
@@ -259,6 +306,7 @@ def create_event():
 
     return render_template('create-event.html')
 
+
 # ----------------------------
 # CREATE CLUB (ADMIN)
 # ----------------------------
@@ -282,6 +330,7 @@ def create_club():
 
     return render_template('create-club.html')
 
+
 # ----------------------------
 # CLEAR ALL DATA (ADMIN)
 # ----------------------------
@@ -295,7 +344,7 @@ def clear_data():
     conn.execute('DELETE FROM events')
     conn.execute('DELETE FROM clubs')
     conn.execute('DELETE FROM event_registrations')
-    conn.execute('DELETE FROM club_memberships')
+    conn.execute('DELETE FROM club_registrations')
     conn.commit()
     conn.close()
     return redirect(url_for('admin_dashboard'))
