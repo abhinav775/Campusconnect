@@ -27,7 +27,12 @@
       <p><strong>Date:</strong> {{ event.date }}</p>
       <p><strong>Hosted by:</strong> {{ event.host }}</p>
       <p>{{ event.description }}</p>
-      <a href="#" class="btn">Register</a>
+
+      <!-- ✅ Register Form -->
+      <form method="post" action="{{ url_for('register_event', event_id=event.id) }}">
+        <button type="submit" class="btn">Register</button>
+      </form>
+
     </div>
     {% endfor %}
   </div>
