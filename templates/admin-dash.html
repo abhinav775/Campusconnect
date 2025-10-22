@@ -15,12 +15,14 @@
       border: 1px solid #ccc;
       padding: 10px;
       text-align: left;
+      color: #333; /* ✅ Ensure table text is visible */
     }
     th {
       background-color: #f2f2f2;
     }
     .btn-clear {
       background-color: #B22222;
+      color: white;
     }
     .btn-clear:hover {
       background-color: #8B0000;
@@ -29,10 +31,28 @@
       text-align: right;
       margin-top: 20px;
     }
+    .logout-btn {
+      float: right;
+      background-color: #555;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .logout-btn:hover {
+      background-color: #333;
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
+    <!-- Logout Button -->
+    <form action="{{ url_for('admin_logout') }}" method="post">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+
     <h1>Admin Dashboard</h1>
 
     <!-- Top Buttons -->
@@ -116,7 +136,9 @@
 
     <!-- Clear All Data Button -->
     <div class="clear-data-container">
-      <a href="{{ url_for('clear_data') }}" class="btn btn-clear">Clear All Data</a>
+      <form action="{{ url_for('clear_data') }}" method="post">
+        <button type="submit" class="btn btn-clear">Clear All Data</button>
+      </form>
     </div>
 
   </div>
