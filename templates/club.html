@@ -18,16 +18,12 @@
 
   <div class="container">
 
-    <!-- Loop through clubs dynamically -->
     {% for club in clubs %}
       <div class="club-card">
-        <!-- Club banner image -->
         <img src="{{ url_for('static', filename=club['banner']) }}" alt="Banner" class="club-banner">
-        
-        <!-- Club name -->
         <h3>{{ club['name'] }}</h3>
-        
-        <!-- Join button -->
+
+        <!-- ✅ Join Form -->
         <form method="post" action="{{ url_for('join_club', club_id=club['id']) }}">
           <button type="submit" class="join-btn">Join</button>
         </form>
