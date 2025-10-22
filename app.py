@@ -215,7 +215,7 @@ def admin_register():
 
 
 # ----------------------------
-# ✅ FIXED ADMIN DASHBOARD
+# ADMIN DASHBOARD
 # ----------------------------
 @app.route('/admin-dashboard')
 def admin_dashboard():
@@ -227,27 +227,6 @@ def admin_dashboard():
     students = conn.execute('SELECT * FROM students').fetchall()
     events = conn.execute('SELECT * FROM events').fetchall()
     clubs = conn.execute('SELECT * FROM clubs').fetchall()
-
-    # ✅ Create tables if not exist
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS event_registrations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id INTEGER,
-            event_id INTEGER,
-            FOREIGN KEY (student_id) REFERENCES students(id),
-            FOREIGN KEY (event_id) REFERENCES events(id)
-        )
-    ''')
-
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS club_registrations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id INTEGER,
-            club_id INTEGER,
-            FOREIGN KEY (student_id) REFERENCES students(id),
-            FOREIGN KEY (club_id) REFERENCES clubs(id)
-        )
-    ''')
 
     # Event registrations
     event_registrations = {}
@@ -264,8 +243,8 @@ def admin_dashboard():
     for club in clubs:
         registered_students = conn.execute('''
             SELECT s.name FROM students s
-            JOIN club_registrations cr ON s.id = cr.student_id
-            WHERE cr.club_id = ?
+            JOIN club_memberships cm ON s.id = cm.student_id
+            WHERE cm.club_id = ?
         ''', (club['id'],)).fetchall()
         club_registrations[club['id']] = registered_students
 
@@ -344,10 +323,25 @@ def clear_data():
     conn.execute('DELETE FROM events')
     conn.execute('DELETE FROM clubs')
     conn.execute('DELETE FROM event_registrations')
-    conn.execute('DELETE FROM club_registrations')
+    conn.execute('DELETE FROM club_memberships')
     conn.commit()
     conn.close()
     return redirect(url_for('admin_dashboard'))
+
+
+# ----------------------------
+# LOGOUT ROUTES
+# ----------------------------
+@app.route('/admin-logout', methods=['POST'])
+def admin_logout():
+    session.pop('admin_id', None)
+    return redirect(url_for('admin_login'))
+
+
+@app.route('/student-logout', methods=['POST'])
+def student_logout():
+    session.pop('student_id', None)
+    return redirect(url_for('student_login'))
 
 
 if __name__ == '__main__':
