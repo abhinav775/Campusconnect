@@ -1,4 +1,6 @@
--- Students table
+-- ----------------------------
+-- Students Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -9,21 +11,27 @@ CREATE TABLE IF NOT EXISTS students (
     phone TEXT NOT NULL
 );
 
--- Admins table
+-- ----------------------------
+-- Admins Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
 
--- Clubs table
+-- ----------------------------
+-- Clubs Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS clubs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT
+    banner TEXT
 );
 
--- Events table
+-- ----------------------------
+-- Events Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -32,20 +40,26 @@ CREATE TABLE IF NOT EXISTS events (
     description TEXT
 );
 
--- Event registrations table
+-- ----------------------------
+-- Event Registrations Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS event_registrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id INTEGER,
-    event_id INTEGER,
-    FOREIGN KEY(student_id) REFERENCES students(id),
-    FOREIGN KEY(event_id) REFERENCES events(id)
+    student_id INTEGER NOT NULL,
+    event_id INTEGER NOT NULL,
+    UNIQUE(student_id, event_id),
+    FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY(event_id) REFERENCES events(id) ON DELETE CASCADE
 );
 
--- Club memberships table
+-- ----------------------------
+-- Club Memberships Table
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS club_memberships (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id INTEGER,
-    club_id INTEGER,
-    FOREIGN KEY(student_id) REFERENCES students(id),
-    FOREIGN KEY(club_id) REFERENCES clubs(id)
+    student_id INTEGER NOT NULL,
+    club_id INTEGER NOT NULL,
+    UNIQUE(student_id, club_id),
+    FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY(club_id) REFERENCES clubs(id) ON DELETE CASCADE
 );
