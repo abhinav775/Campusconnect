@@ -8,6 +8,12 @@
 </head>
 <body>
   <div class="dashboard-container">
+    
+    <!-- Logout Button -->
+    <form action="{{ url_for('student_logout') }}" method="post" style="text-align:right; margin-bottom: 20px;">
+      <button type="submit" class="btn" style="background-color:#555; color:white;">Logout</button>
+    </form>
+
     <h1>Welcome, Student!</h1>
 
     <!-- Action Buttons -->
@@ -28,6 +34,7 @@
       </div>
       {% endfor %}
     </div>
+
   </div>
 </body>
 </html>
